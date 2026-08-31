@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <title>Doctor Dashboard - BORJA Dental Clinic</title>
+    <link rel="stylesheet" href="styles.css?v=20260801-dentist-dashboard">
+  </head>
+  <body data-page="doctor">
+    <header class="site-header portal-header">
+      <a class="brand" href="index.html#home" aria-label="BORJA Dental Clinic home">
+        <img class="brand-logo" src="assets/logo.png?v=20260715" alt="">
+        <span>
+          <strong>BORJA</strong>
+          <small>Dental Clinic</small>
+        </span>
+      </a>
+      <label class="portal-search" for="portalGlobalSearch">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <input id="portalGlobalSearch" type="search" placeholder="Search patients, mobile, or email" autocomplete="off">
+        <span>Enter</span>
+      </label>
+      <div class="auth-actions">
+        <div class="notification-center">
+          <button class="notification-button" id="notificationButton" type="button" aria-label="Notifications" title="Notifications" aria-haspopup="dialog" aria-controls="notificationPanel" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+              <path d="M10 21h4"></path>
+            </svg>
+            <span class="notification-badge hidden" id="notificationBadge" aria-label="0 unread notifications">0</span>
+          </button>
+          <section class="notification-panel hidden" id="notificationPanel" role="dialog" aria-labelledby="notificationPanelTitle">
+            <div class="notification-panel-header">
+              <div>
+                <span class="section-kicker">Transactions</span>
+                <h2 id="notificationPanelTitle">Notifications</h2>
+              </div>
+              <button class="text-link notification-read-all" id="notificationReadAll" type="button">Mark all read</button>
+            </div>
+            <div class="notification-list" id="notificationList">
+              <p class="notification-empty">No notifications yet.</p>
+            </div>
+          </section>
+        </div>
+        <button class="ghost-button logout-trigger" id="logoutButton" type="button">Log Out</button>
+      </div>
+    </header>
+
+    <main class="portal-page doctor-portal" id="doctorDashboard">
+      <aside class="profile-sidebar" aria-label="Doctor profile navigation">
+        <div class="profile-avatar" id="doctorSidebarInitials">D</div>
+        <strong id="doctorSidebarName">DOCTOR NAME</strong>
+        <span>Doctor / Admin</span>
+        <nav class="side-nav">
+          <button class="active" data-panel-target="doctorOverview" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg><span>Overview</span></button>
+          <button data-panel-target="doctorPatients" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg><span>Patients &amp; Treatments</span></button>
+          <button data-panel-target="doctorSchedule" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg><span>Appointments</span></button>
+          <button data-panel-target="doctorSettings" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path><circle cx="8" cy="6" r="2"></circle><circle cx="16" cy="12" r="2"></circle><circle cx="10" cy="18" r="2"></circle></svg><span>Services &amp; Content</span></button>
+          <button data-panel-target="doctorMessages" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path></svg><span>Messages</span></button>
+          <button data-panel-target="doctorStatistics" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"></path></svg><span>Reports</span></button>
+          <button data-panel-target="doctorProfile" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg><span>Account</span></button>
+        </nav>
+        <button class="danger-button full logout-trigger" type="button">Logout</button>
+      </aside>
+
+      <section class="portal-main" aria-labelledby="doctorDashboardTitle">
+        <section class="workspace-panel" id="doctorOverview">
+          <div class="reference-dashboard-heading">
+            <div>
+              <span class="dashboard-breadcrumb">Dashboard / Dental Dashboard</span>
+              <h1 id="doctorDashboardTitle">Dentist Dashboard</h1>
+              <p id="doctorDashboardDate">Clinic operations and patient care overview.</p>
+            </div>
+            <div class="reference-account-summary">
+              <div class="profile-avatar large" id="doctorProfileInitials">D</div>
+              <div>
+                <strong id="doctorProfileName">DOCTOR NAME</strong>
+                <small id="doctorProfileEmail">doctor@email.com</small>
+                <span>Clinic administrator</span>
+                <span class="sr-only" id="doctorRole">Doctor</span>
+                <span class="sr-only" id="doctorStatus">Active</span>
+                <span class="sr-only" id="doctorPhone">Not provided</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="reference-dashboard-stack">
+            <section class="dashboard-panel reference-dashboard-card reference-appointments-card">
+              <div class="reference-date-toolbar">
+                <label class="reference-date-field">From<input id="dashboardRangeStart" type="date"></label>
+                <span aria-hidden="true">to</span>
+                <label class="reference-date-field">Until<input id="dashboardRangeEnd" type="date"></label>
+                <button class="secondary-button compact-button" id="refreshDoctorData" type="button">Refresh</button>
+              </div>
+              <div class="dashboard-day-strip" id="doctorDayStrip" aria-label="Choose appointment date"></div>
+              <div class="reference-card-title"><h2>Appointments</h2><span id="doctorTodayCount">0 appointments</span></div>
+              <div class="reference-appointment-strip" id="doctorDailySchedule"></div>
+            </section>
+
+            <section class="dashboard-panel reference-dashboard-card">
+              <div class="reference-card-title">
+                <h2>Available Treatments</h2>
+                <button class="text-link" data-panel-target="doctorSettings" type="button">Manage treatments</button>
+              </div>
+              <div class="treatment-tile-grid" id="doctorServiceSnapshot"></div>
+            </section>
+
+            <section class="dashboard-panel reference-dashboard-card clinic-earnings-card">
+              <div class="reference-card-title"><h2>Clinic Earnings</h2><span id="doctorCollectionRateLabel">0% collected</span></div>
+              <div class="clinic-earnings-strip">
+                <article class="earnings-primary"><small>Total charged</small><strong id="doctorTotalCharged">PHP 0.00</strong></article>
+                <article><small>Amount collected</small><strong id="doctorTotalPaid">PHP 0.00</strong></article>
+                <article><small>Pending balance</small><strong id="doctorTotalOutstanding">PHP 0.00</strong></article>
+                <article><small>Patients</small><strong id="doctorPatientCount">0</strong></article>
+                <article><small>Appointments</small><strong id="doctorAppointmentCount">0</strong></article>
+                <article><small>Reviews</small><strong id="doctorReviewCount">0</strong></article>
+              </div>
+            </section>
+
+            <section class="dashboard-panel reference-dashboard-card income-card">
+              <div class="reference-card-title"><div><h2>Income</h2><p>Monthly collections based on treatment records.</p></div><strong id="doctorIncomeTotal">PHP 0.00</strong></div>
+              <div class="income-chart" id="doctorIncomeChart" role="img" aria-label="Monthly clinic income chart"></div>
+            </section>
+
+            <div class="reference-three-column-grid">
+              <section class="dashboard-panel reference-dashboard-card">
+                <div class="reference-card-title"><h2>Appointments</h2><span class="panel-count" id="doctorPendingBadge">0 pending</span></div>
+                <div class="pending-appointment-list" id="doctorPendingAppointments"></div>
+              </section>
+
+              <section class="dashboard-panel reference-dashboard-card">
+                <div class="reference-card-title"><h2>Activity</h2><span>Latest transactions</span></div>
+                <div class="clinic-activity-feed" id="doctorActivityFeed"></div>
+              </section>
+
+              <section class="dashboard-panel reference-dashboard-card balance-summary-card">
+                <div class="reference-card-title"><h2>Clinic Balance</h2><span id="doctorPendingOverview">0 pending</span></div>
+                <div class="balance-summary-total"><small>Outstanding treatment balance</small><strong id="doctorOutstandingBalance">PHP 0.00</strong></div>
+                <div class="collection-meter" aria-hidden="true"><span id="doctorCollectionMeter"></span></div>
+                <div class="finance-breakdown">
+                  <span><small>Collected</small><strong id="doctorBalancePaid">PHP 0.00</strong></span>
+                  <span><small>Outstanding</small><strong id="doctorBalanceOutstanding">PHP 0.00</strong></span>
+                </div>
+                <button class="secondary-button full" data-panel-target="doctorStatistics" type="button">Open Reports</button>
+              </section>
+            </div>
+
+            <div class="reference-two-column-grid">
+              <section class="dashboard-panel reference-dashboard-card">
+                <div class="reference-card-title"><h2>Patients</h2><span>Current patient directory</span></div>
+                <div class="analytics-bars" id="doctorPatientAnalytics"></div>
+              </section>
+              <section class="dashboard-panel reference-dashboard-card">
+                <div class="reference-card-title"><h2>Appointments</h2><span>Booking status overview</span></div>
+                <div class="analytics-bars" id="doctorAppointmentAnalytics"></div>
+              </section>
+            </div>
+          </div>
+
+          <dialog class="crud-dialog" id="recordEditorDialog" aria-labelledby="recordFormTitle">
+                <div class="crud-dialog-shell">
+                  <div class="crud-dialog-header">
+                    <div>
+                      <span class="section-kicker">Medical record</span>
+                      <h2 id="recordFormTitle">Add Treatment Record</h2>
+                    </div>
+                    <button class="icon-button" id="closeRecordDialog" type="button" aria-label="Close treatment record form">&times;</button>
+                  </div>
+                  <form id="recordForm" class="stacked-form record-form-grid">
+                    <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                    <label>
+                      Patient
+                      <select name="patient_id" id="recordPatient" required></select>
+                    </label>
+                    <label>
+                      Related appointment
+                      <select name="appointment_id" id="recordAppointment">
+                        <option value="">None</option>
+                      </select>
+                    </label>
+                    <label>
+                      Treatment Date
+                      <input name="treatment_date" type="date" required>
+                    </label>
+                    <label>
+                      Tooth Number(s)
+                      <input name="tooth_numbers" maxlength="120" pattern="[0-9#,. /-]+" placeholder="11, 12, 13" required>
+                    </label>
+                    <label>
+                      Procedure/Service
+                      <select name="procedure" id="recordProcedure" required></select>
+                    </label>
+                    <label>
+                      Amount Charged
+                      <input name="amount_charged" id="recordAmountCharged" type="number" min="0" max="100000000" step="0.01" required>
+                    </label>
+                    <label>
+                      Amount Paid
+                      <input name="amount_paid" id="recordAmountPaid" type="number" min="0" max="100000000" step="0.01" required>
+                    </label>
+                    <label>
+                      Remaining Balance
+                      <input id="recordRemainingBalance" readonly>
+                    </label>
+                    <label class="wide-field">
+                      Remarks
+                      <textarea name="remarks" rows="3" maxlength="1000"></textarea>
+                    </label>
+                    <div class="crud-dialog-actions wide-field">
+                      <button class="secondary-button" id="cancelRecordDialog" type="button">Cancel</button>
+                      <button class="primary-button" type="submit">Save Record</button>
+                    </div>
+                  </form>
+                </div>
+          </dialog>
+
+        </section>
+
+        <section class="workspace-panel hidden" id="doctorProfile">
+          <div class="dashboard-panel">
+            <div class="panel-heading inline">
+              <h2>Profile</h2>
+            </div>
+            <form id="doctorProfileForm" class="stacked-form profile-edit-form">
+              <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+              <label>
+                Full name
+                <input name="name" id="doctorEditName" autocomplete="name" minlength="2" maxlength="120" required>
+              </label>
+              <label>
+                Email
+                <input name="email" id="doctorEditEmail" type="email" autocomplete="email" maxlength="254" required>
+              </label>
+              <label>
+                Phone
+                <input name="phone" id="doctorEditPhone" autocomplete="tel" inputmode="tel" maxlength="24" pattern="[0-9+() .-]{7,24}">
+              </label>
+              <label>
+                Profile picture
+                <input id="doctorProfileImageFile" type="file" accept="image/png,image/jpeg,image/webp">
+                <input name="profile_image" id="doctorEditProfileImage" type="hidden">
+              </label>
+              <button class="primary-button full" type="submit">Save Profile</button>
+            </form>
+            <div class="detail-grid">
+              <span><strong id="doctorDetailName">Doctor</strong>Name</span>
+              <span><strong id="doctorDetailEmail">doctor@email.com</strong>Email</span>
+              <span><strong id="doctorDetailPhone">Not provided</strong>Phone</span>
+              <span><strong id="doctorDetailCreated">-</strong>Member since</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="workspace-panel hidden" id="doctorMessages">
+          <div class="dashboard-panel">
+            <div class="panel-heading inline">
+              <h2>Messages</h2>
+            </div>
+            <label>
+              Patient
+              <select id="doctorMessageContact"></select>
+            </label>
+            <div class="message-list" id="doctorMessagesList"></div>
+            <form id="doctorMessageForm" class="stacked-form">
+              <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+              <label>
+                Message
+                <textarea name="body" rows="3" minlength="1" maxlength="1000" required></textarea>
+              </label>
+              <button class="primary-button full" type="submit">Send Message</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="workspace-panel hidden" id="doctorPatients">
+          <div class="patient-module">
+            <div class="crud-page-heading">
+              <div>
+                <span class="section-kicker">Patient management</span>
+                <h1>Patients</h1>
+                <p>Search records, review balances, and manage treatment history.</p>
+              </div>
+              <button class="primary-button" id="resetPatientForm" type="button">+ Add Patient</button>
+            </div>
+
+            <section class="dashboard-panel crud-directory-panel">
+              <div class="crud-toolbar">
+                <label class="crud-search-field">
+                  <span>Search patients</span>
+                  <input id="patientSearch" list="patientSearchOptions" placeholder="Name, mobile number, or email" autocomplete="off">
+                  <datalist id="patientSearchOptions"></datalist>
+                </label>
+                <p class="meta" id="patientSearchHint">Loading patient records...</p>
+              </div>
+              <div class="table-wrap">
+                <table class="crud-table patient-directory-table">
+                  <thead>
+                    <tr>
+                      <th>Patient</th>
+                      <th>Contact</th>
+                      <th>Last Visit</th>
+                      <th>Balance</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="patientDirectoryRows"></tbody>
+                </table>
+              </div>
+              <div class="patient-list-footer hidden" id="patientListFooter">
+                <button class="primary-button" id="openPatientListDialog" type="button" aria-haspopup="dialog" aria-controls="patientListDialog">More</button>
+              </div>
+            </section>
+
+            <dialog class="crud-dialog" id="patientEditorDialog" aria-labelledby="patientFormTitle">
+              <div class="crud-dialog-shell">
+                <div class="crud-dialog-header">
+                  <div>
+                    <span class="section-kicker">Patient record</span>
+                    <h2 id="patientFormTitle">Add Patient</h2>
+                  </div>
+                  <button class="icon-button" id="closePatientDialog" type="button" aria-label="Close patient form">&times;</button>
+                </div>
+                <form id="patientForm" class="stacked-form patient-form-grid">
+                <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                <input name="id" id="patientEditId" type="hidden">
+                <label>
+                  Last Name
+                  <input name="last_name" autocomplete="family-name" minlength="2" maxlength="80" required>
+                </label>
+                <label>
+                  First Name
+                  <input name="first_name" autocomplete="given-name" minlength="2" maxlength="80" required>
+                </label>
+                <label>
+                  Middle Name
+                  <input name="middle_name" autocomplete="additional-name" maxlength="80">
+                </label>
+                <label>
+                  Birthdate (MM/DD/YYYY)
+                  <input name="birthdate" id="patientBirthdate" type="date" required>
+                </label>
+                <label>
+                  Age
+                  <input name="age" id="patientAge" readonly>
+                </label>
+                <label>
+                  Nationality
+                  <input name="nationality" minlength="2" maxlength="80" required>
+                </label>
+                <label>
+                  Occupation
+                  <input name="occupation" minlength="2" maxlength="120" required>
+                </label>
+                <label>
+                  Phone Number (optional)
+                  <input name="phone_number" autocomplete="tel" inputmode="tel" maxlength="24" pattern="[0-9+() .-]{7,24}">
+                </label>
+                <label>
+                  Mobile Number
+                  <input name="mobile_number" autocomplete="tel" inputmode="tel" maxlength="24" pattern="[0-9+() .-]{7,24}" required>
+                </label>
+                <label>
+                  Email Address
+                  <input name="email" type="email" autocomplete="email" maxlength="254" required>
+                </label>
+                <label class="wide-field">
+                  Home Address
+                  <input name="address" autocomplete="street-address" minlength="5" maxlength="300" required>
+                </label>
+                <label class="wide-field">
+                  Notes
+                  <textarea name="notes" rows="3" maxlength="1000"></textarea>
+                </label>
+                <div class="crud-dialog-actions wide-field">
+                  <button class="secondary-button" id="cancelPatientDialog" type="button">Cancel</button>
+                  <button class="primary-button" id="patientSubmitButton" type="submit">Save Patient Record</button>
+                </div>
+              </form>
+              </div>
+            </dialog>
+
+            <dialog class="crud-dialog patient-treatment-prompt" id="patientTreatmentPrompt" aria-labelledby="patientTreatmentPromptTitle">
+              <div class="crud-dialog-shell">
+                <div class="crud-dialog-header">
+                  <div>
+                    <span class="section-kicker">Patient saved</span>
+                    <h2 id="patientTreatmentPromptTitle">Add a treatment record?</h2>
+                  </div>
+                  <button class="icon-button" id="closePatientTreatmentPrompt" type="button" aria-label="Finish without adding treatment">&times;</button>
+                </div>
+                <div class="patient-treatment-prompt-body">
+                  <p><strong id="savedPatientName">The patient</strong> was saved successfully. Would you like to add the first treatment record now?</p>
+                  <div class="crud-dialog-actions">
+                    <button class="secondary-button" id="skipPatientTreatment" type="button">No, Finish</button>
+                    <button class="primary-button" id="confirmPatientTreatment" type="button">Yes, Add Treatment</button>
+                  </div>
+                </div>
+              </div>
+            </dialog>
+
+            <dialog class="crud-dialog patient-list-dialog" id="patientListDialog" aria-labelledby="patientListTitle">
+              <div class="crud-dialog-shell">
+                <div class="crud-dialog-header">
+                  <div>
+                    <span class="section-kicker">Patient management</span>
+                    <h2 id="patientListTitle">All Patients</h2>
+                  </div>
+                  <button class="icon-button" id="closePatientListDialog" type="button" aria-label="Close patient list">&times;</button>
+                </div>
+                <div class="patient-list-dialog-body">
+                  <div class="table-wrap">
+                    <table class="crud-table patient-directory-table">
+                      <thead>
+                        <tr>
+                          <th>Patient</th>
+                          <th>Contact</th>
+                          <th>Last Visit</th>
+                          <th>Balance</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="patientModalRows"></tbody>
+                    </table>
+                  </div>
+                  <div class="crud-dialog-actions">
+                    <button class="secondary-button" id="donePatientListDialog" type="button">Close</button>
+                  </div>
+                </div>
+              </div>
+            </dialog>
+
+            <dialog class="crud-dialog patient-profile-dialog" id="patientProfileDialog" aria-labelledby="patientProfileTitle">
+              <div class="crud-dialog-shell">
+                <div class="crud-dialog-header">
+                  <div>
+                    <span class="section-kicker">Patient profile</span>
+                    <h2 id="patientProfileTitle">Personal Information</h2>
+                  </div>
+                  <button class="icon-button" id="closePatientProfileDialog" type="button" aria-label="Close patient profile">&times;</button>
+                </div>
+
+                <section class="patient-profile-dialog-body hidden" id="patientProfilePanel">
+                  <div class="patient-profile-actions" id="patientProfileActions"></div>
+
+              <div class="detail-grid patient-profile-grid" id="patientProfileDetails"></div>
+
+              <div class="summary-strip">
+                <span><strong id="profileTotalCharged">PHP 0.00</strong>Total Amount Charged</span>
+                <span><strong id="profileTotalPaid">PHP 0.00</strong>Total Amount Paid</span>
+                <span><strong id="profileTotalBalance">PHP 0.00</strong>Total Outstanding Balance</span>
+              </div>
+
+              <dialog class="crud-dialog" id="treatmentEditorDialog" aria-labelledby="treatmentFormTitle">
+                <div class="crud-dialog-shell">
+                  <div class="crud-dialog-header">
+                    <div>
+                      <span class="section-kicker">Treatment record</span>
+                      <h2 id="treatmentFormTitle">Add Treatment</h2>
+                    </div>
+                    <button class="icon-button" id="closeTreatmentDialog" type="button" aria-label="Close treatment form">&times;</button>
+                  </div>
+                  <form id="treatmentForm" class="stacked-form treatment-form-grid">
+                <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                <input name="id" id="treatmentEditId" type="hidden">
+                <input name="patient_id" id="treatmentPatientId" type="hidden">
+                <label>
+                  Treatment Date
+                  <input name="treatment_date" type="date" required>
+                </label>
+                <label>
+                  Tooth Number(s)
+                  <input name="tooth_numbers" maxlength="120" pattern="[0-9#,. /-]+" placeholder="11, 12, 13" required>
+                </label>
+                <label>
+                  Procedure/Service
+                  <select name="procedure" id="treatmentProcedure" required></select>
+                </label>
+                <label>
+                  Amount Charged
+                  <input name="amount_charged" id="amountCharged" type="number" min="0" max="100000000" step="0.01" required>
+                </label>
+                <label>
+                  Amount Paid
+                  <input name="amount_paid" id="amountPaid" type="number" min="0" max="100000000" step="0.01" required>
+                </label>
+                <label>
+                  Remaining Balance
+                  <input id="remainingBalance" readonly>
+                </label>
+                <label class="wide-field">
+                  Remarks
+                  <textarea name="remarks" rows="3" maxlength="1000"></textarea>
+                </label>
+                    <div class="crud-dialog-actions wide-field">
+                      <button class="secondary-button" id="cancelTreatmentDialog" type="button">Cancel</button>
+                      <button class="primary-button" id="treatmentSubmitButton" type="submit">Save Treatment</button>
+                    </div>
+                  </form>
+                </div>
+              </dialog>
+
+              <div class="crud-section-heading">
+                <div>
+                  <span class="section-kicker">Read / Update / Delete</span>
+                  <h3>Treatment history</h3>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="crud-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Tooth No./s</th>
+                      <th>Procedure</th>
+                      <th>Amount Charged</th>
+                      <th>Amount Paid</th>
+                      <th>Balance</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="treatmentDirectory"></tbody>
+                </table>
+              </div>
+                </section>
+              </div>
+            </dialog>
+
+            <section class="dashboard-panel">
+              <div class="panel-heading inline">
+                <div>
+                  <span class="section-kicker">Dental services</span>
+                  <h2 id="selectedServiceTitle">Dental Services</h2>
+                </div>
+              </div>
+              <div class="service-category-list" id="serviceCategoryList"></div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Patient Name</th>
+                      <th>Date</th>
+                      <th>Dentist</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="servicePatientRows"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="workspace-panel hidden" id="doctorSchedule">
+          <div class="schedule-management-grid">
+            <section class="dashboard-panel availability-manager">
+              <div class="panel-heading inline">
+                <div>
+                  <span class="section-kicker">Admin Control</span>
+                  <h2>Clinic availability</h2>
+                </div>
+              </div>
+              <form id="availabilityForm" class="stacked-form availability-form">
+                <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                <div class="availability-scheduler-grid">
+                  <div class="availability-settings">
+                    <label>
+                      Dentist
+                      <input name="doctor" id="availabilityDoctor" maxlength="120" readonly required>
+                    </label>
+                    <label>
+                      Schedule month
+                      <input id="availabilityMonth" type="month" required>
+                    </label>
+                    <div class="form-grid availability-time-grid">
+                      <label>
+                        Time in
+                        <input name="time_in" id="availabilityTimeIn" type="time" value="08:00" step="900" required>
+                      </label>
+                      <label>
+                        Time out
+                        <input name="time_out" id="availabilityTimeOut" type="time" value="17:00" step="900" required>
+                      </label>
+                      <label>
+                        Slot interval
+                        <select name="interval" id="availabilityInterval" required>
+                          <option value="15">15 minutes</option>
+                          <option value="30" selected>30 minutes</option>
+                          <option value="60">60 minutes</option>
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+                  <fieldset class="availability-calendar-fieldset">
+                    <legend>
+                      <span>Available dates</span>
+                      <output id="availabilitySelectedCount" aria-live="polite">0 dates selected</output>
+                    </legend>
+                    <input name="dates" id="availabilitySelectedDates" type="hidden">
+                    <div class="availability-weekdays" aria-hidden="true">
+                      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                    </div>
+                    <div class="availability-calendar" id="availabilityCalendar" role="group" aria-label="Select available dates"></div>
+                  </fieldset>
+                </div>
+                <div class="crud-dialog-actions availability-form-actions">
+                  <button class="secondary-button" id="clearAvailabilityDates" type="button">Clear Dates</button>
+                  <button class="primary-button" id="availabilitySubmitButton" type="submit">Create Schedule</button>
+                </div>
+              </form>
+              <div class="table-wrap compact-table-wrap">
+                <table class="crud-table availability-table">
+                  <thead>
+                    <tr><th>Dentist</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+                  </thead>
+                  <tbody id="availabilityRows"></tbody>
+                </table>
+              </div>
+              <div class="availability-list-footer hidden" id="availabilityListFooter">
+                <button class="secondary-button hidden" id="openAvailabilityListDialog" type="button">More</button>
+              </div>
+            </section>
+
+            <section class="dashboard-panel">
+              <div class="panel-heading inline">
+                <div>
+                  <span class="section-kicker">Patient Bookings</span>
+                  <h2>Appointment schedule</h2>
+                </div>
+                <button class="secondary-button" id="refreshScheduleData" type="button">Refresh</button>
+              </div>
+              <div class="table-wrap">
+                <table class="crud-table">
+                  <thead>
+                    <tr>
+                      <th>Patient</th>
+                      <th>Service</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="doctorScheduleRows"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <dialog class="crud-dialog availability-editor-dialog" id="availabilityEditorDialog" aria-labelledby="availabilityEditorTitle">
+            <div class="crud-dialog-shell">
+              <div class="crud-dialog-header">
+                <div>
+                  <span class="section-kicker">Time slot</span>
+                  <h2 id="availabilityEditorTitle">Edit Availability</h2>
+                </div>
+                <button class="icon-button" id="closeAvailabilityEditor" type="button" aria-label="Close availability editor">&times;</button>
+              </div>
+              <form id="availabilityEditorForm" class="stacked-form">
+                <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                <input name="id" id="availabilityEditorId" type="hidden">
+                <label>
+                  Dentist
+                  <input name="doctor" id="availabilityEditorDoctor" maxlength="120" readonly required>
+                </label>
+                <div class="form-grid two">
+                  <label>
+                    Available date
+                    <input name="date" id="availabilityEditorDate" type="date" data-min-today="true" required>
+                  </label>
+                  <label>
+                    Available time
+                    <input name="time" id="availabilityEditorTime" type="time" step="300" required>
+                  </label>
+                </div>
+                <div class="crud-dialog-actions">
+                  <button class="secondary-button" id="cancelAvailabilityEditor" type="button">Cancel</button>
+                  <button class="primary-button" type="submit">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </dialog>
+
+          <dialog class="crud-dialog availability-list-dialog" id="availabilityListDialog" aria-labelledby="availabilityListTitle">
+            <div class="crud-dialog-shell">
+              <div class="crud-dialog-header">
+                <div>
+                  <span class="section-kicker">Admin Control</span>
+                  <h2 id="availabilityListTitle">All Clinic Availability</h2>
+                </div>
+                <button class="icon-button" id="closeAvailabilityListDialog" type="button" aria-label="Close all clinic availability">&times;</button>
+              </div>
+              <div class="availability-list-dialog-body">
+                <div class="table-wrap">
+                  <table class="crud-table availability-table">
+                    <thead>
+                      <tr><th>Dentist</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="availabilityModalRows"></tbody>
+                  </table>
+                </div>
+                <div class="crud-dialog-actions">
+                  <button class="secondary-button" id="doneAvailabilityListDialog" type="button">Close</button>
+                </div>
+              </div>
+            </div>
+          </dialog>
+        </section>
+
+        <section class="workspace-panel hidden" id="doctorStatistics">
+          <div class="dashboard-grid">
+            <article class="summary-card">
+              <span>Pending</span>
+              <strong id="doctorPendingCount">0</strong>
+            </article>
+            <article class="summary-card">
+              <span>Completed</span>
+              <strong id="doctorCompletedCount">0</strong>
+            </article>
+            <article class="summary-card">
+              <span>Cancelled</span>
+              <strong id="doctorCancelledCount">0</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="workspace-panel hidden" id="doctorSettings">
+          <div class="management-grid">
+            <section class="dashboard-panel">
+              <div class="panel-heading">
+                <span class="section-kicker">Services</span>
+                <h2>Add service</h2>
+              </div>
+              <form id="serviceForm" class="stacked-form">
+                <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                <label>
+                  Service name
+                  <input name="name" minlength="3" maxlength="120" required>
+                </label>
+                <label>
+                  Description
+                  <textarea name="description" rows="3" minlength="10" maxlength="500" required></textarea>
+                </label>
+                <button class="primary-button full" type="submit">Save Service</button>
+              </form>
+              <div class="table-wrap compact-table-wrap">
+                <table class="crud-table compact-table">
+                  <thead><tr><th>Service</th><th>Description</th><th>Actions</th></tr></thead>
+                  <tbody id="doctorServiceList"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="dashboard-panel">
+              <div class="panel-heading">
+                <span class="section-kicker">Promos</span>
+                <h2>Add promo</h2>
+              </div>
+              <form id="promoForm" class="stacked-form">
+                <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                <label>
+                  Promo title
+                  <input name="title" minlength="3" maxlength="120" required>
+                </label>
+                <label>
+                  Description
+                  <textarea name="description" rows="3" minlength="10" maxlength="500" required></textarea>
+                </label>
+                <button class="primary-button full" type="submit">Save Promo</button>
+              </form>
+              <div class="table-wrap compact-table-wrap">
+                <table class="crud-table compact-table">
+                  <thead><tr><th>Promo</th><th>Description</th><th>Actions</th></tr></thead>
+                  <tbody id="doctorPromoList"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="dashboard-panel">
+              <div class="panel-heading">
+                <span class="section-kicker">Feedback</span>
+                <h2>Edit feedback</h2>
+              </div>
+              <form id="feedbackEditForm" class="stacked-form">
+                <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+                <label>
+                  Feedback
+                  <select name="id" id="feedbackSelect" required></select>
+                </label>
+                <label>
+                  Rating
+                  <select name="rating" id="feedbackRating">
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Very good</option>
+                    <option value="3">3 - Good</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Needs improvement</option>
+                  </select>
+                </label>
+                <label>
+                  Message
+                  <textarea name="message" id="feedbackMessage" rows="4" minlength="10" maxlength="500" required></textarea>
+                </label>
+                <button class="primary-button full" type="submit">Save Feedback</button>
+              </form>
+              <button class="danger-button full" id="deleteFeedbackButton" type="button">Delete Selected Feedback</button>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <svg class="icon-sprite" aria-hidden="true">
+      <symbol id="action-icon-eye" viewBox="0 0 24 24">
+        <path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </symbol>
+      <symbol id="action-icon-pencil" viewBox="0 0 24 24">
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+      </symbol>
+      <symbol id="action-icon-trash" viewBox="0 0 24 24">
+        <path d="M3 6h18"></path>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        <path d="M10 11v6M14 11v6"></path>
+      </symbol>
+    </svg>
+    <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+    <script src="security.js?v=20260722-date-fix" defer></script>
+    <script src="dashboard.js?v=20260801-dentist-dashboard" defer></script>
+  </body>
+</html>

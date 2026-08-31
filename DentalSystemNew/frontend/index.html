@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <title>BORJA Dental Clinic - Dental Record Management System</title>
+    <link rel="stylesheet" href="styles.css?v=20260722-single-doctor">
+  </head>
+  <body data-page="home">
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="BORJA Dental Clinic home">
+        <img class="brand-logo" src="assets/logo.png?v=20260715" alt="">
+        <span>
+          <strong>BORJA</strong>
+          <small>Dental Clinic</small>
+        </span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#promos">Promos</a>
+        <a href="#feedback">Feedback</a>
+        <button class="nav-action" id="bookNav" type="button">Book Appointment</button>
+      </nav>
+      <div class="auth-actions">
+        <button class="ghost-button" id="loginOpen" type="button">Log In</button>
+        <button class="primary-button" id="registerOpen" type="button">Create Account</button>
+        <button class="ghost-button hidden" id="dashboardJump" type="button">Dashboard</button>
+        <button class="danger-button hidden" id="logoutButton" type="button">Log Out</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home" aria-labelledby="pageTitle">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-copy">
+            <p class="eyebrow">Secure records and appointment tracking</p>
+            <h1 id="pageTitle">BORJA Dental Clinic</h1>
+            <p class="hero-text">
+              A patient-friendly clinic portal for browsing services freely, reserving visits after login, and helping doctors keep organized dental records.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-button large" id="heroBook" type="button">Reserve a Visit</button>
+              <a class="text-link" href="#services">View Services</a>
+            </div>
+            <dl class="hero-stats" aria-label="System highlights">
+              <div>
+                <dt>24/7</dt>
+                <dd>Appointment requests</dd>
+              </div>
+              <div>
+                <dt>Private</dt>
+                <dd>Patient access</dd>
+              </div>
+              <div>
+                <dt>Fast</dt>
+                <dd>Doctor updates</dd>
+              </div>
+            </dl>
+          </div>
+
+          <form class="appointment-panel" id="appointmentForm" aria-label="Appointment booking form">
+            <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+            <div class="panel-heading">
+              <span class="section-kicker">Appointment</span>
+              <h2>Choose your dental visit</h2>
+            </div>
+            <label>
+              Dental service
+              <select name="service" id="serviceSelect" required>
+                <option value="">Select service</option>
+              </select>
+            </label>
+            <label class="single-doctor-field">
+              Clinic dentist
+              <input name="doctor" id="doctorSelect" readonly required>
+            </label>
+            <div class="form-grid two">
+              <label>
+                Available date
+                <select name="date" id="appointmentDate" required>
+                  <option value="">Select available date</option>
+                </select>
+              </label>
+              <label>
+                Time
+                <input name="time" id="selectedTime" type="hidden" required>
+                <span class="selected-time" id="selectedTimeLabel">Select slot</span>
+              </label>
+            </div>
+            <div class="time-slots" id="timeSlots" aria-label="Available time slots"></div>
+            <label>
+              Notes
+              <textarea name="notes" rows="3" maxlength="500" placeholder="Symptoms, concerns, or preferred details"></textarea>
+            </label>
+            <button class="primary-button full" id="appointmentSubmit" type="submit">Continue Booking</button>
+            <p class="form-note" id="bookingGateText">Browsing is open to everyone. Booking requires a patient account.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="public-band intro-band" id="about">
+        <div class="section-heading">
+          <span class="section-kicker">About us</span>
+          <h2>Care that keeps records clear and visits on time.</h2>
+          <p>
+            The system supports patients, dentists, and clinic staff with organized appointment tracking and dental record management in one accessible web portal.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-icon">01</span>
+            <h3>Patient-first browsing</h3>
+            <p>Visitors can explore services, promos, clinic details, and feedback without creating an account.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon">02</span>
+            <h3>Login-protected booking</h3>
+            <p>Appointment reservations are processed only after a patient logs in or creates an account.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon">03</span>
+            <h3>Doctor record tools</h3>
+            <p>Dental professionals can review appointments and add treatment notes to patient records.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="public-band" id="services">
+        <div class="section-heading compact">
+          <span class="section-kicker">Dental services</span>
+          <h2>Common services patients can reserve.</h2>
+        </div>
+        <div class="service-grid" id="serviceGrid"></div>
+      </section>
+
+      <section class="promo-band" id="promos">
+        <div class="section-heading compact">
+          <span class="section-kicker">Promos</span>
+          <h2>Clinic offers for this month.</h2>
+        </div>
+        <div class="promo-grid" id="promoGrid"></div>
+      </section>
+
+      <section class="feedback-band" id="feedback">
+        <div class="section-heading compact">
+          <span class="section-kicker">Feedbacks</span>
+          <h2>Patient experiences.</h2>
+        </div>
+        <div class="feedback-layout">
+          <div class="feedback-list" id="feedbackList"></div>
+          <form class="feedback-form" id="feedbackForm">
+            <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+            <h3>Share feedback</h3>
+            <label>
+              Name
+              <input name="name" id="feedbackName" minlength="2" maxlength="80" placeholder="Your name">
+            </label>
+            <label>
+              Rating
+              <select name="rating">
+                <option value="5">5 - Excellent</option>
+                <option value="4">4 - Very good</option>
+                <option value="3">3 - Good</option>
+                <option value="2">2 - Fair</option>
+                <option value="1">1 - Needs improvement</option>
+              </select>
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows="4" minlength="10" maxlength="500" required placeholder="Write your clinic experience"></textarea>
+            </label>
+            <button class="secondary-button full" type="submit">Submit Feedback</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Design and Development of a Dental Record Management System with Secure Patient Data and Appointment Tracking</p>
+    </footer>
+
+    <div class="modal-backdrop hidden" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-describedby="authSubtitle">
+      <div class="auth-modal">
+        <button class="modal-close" id="authClose" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
+        <form id="loginForm" class="auth-form">
+          <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+          <div class="auth-heading">
+            <img class="auth-brand-logo" src="assets/logo.png?v=20260715" alt="">
+            <h2 id="authTitle">Welcome Back</h2>
+            <p id="authSubtitle">Sign in to continue securely.</p>
+          </div>
+          <label class="auth-field">
+            <span>Email</span>
+            <span class="auth-input-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 6.5h16v11H4z"></path>
+                <path d="M4.5 7l7.5 6 7.5-6"></path>
+              </svg>
+              <input name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required>
+            </span>
+          </label>
+          <label class="auth-field">
+            <span>Password</span>
+            <span class="auth-input-wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M7 10V8a5 5 0 0 1 10 0v2"></path>
+                <path d="M6 10h12v9H6z"></path>
+              </svg>
+              <input id="loginPassword" name="password" type="password" autocomplete="current-password" maxlength="128" placeholder="Enter your password" required>
+              <button class="password-toggle" id="passwordToggle" type="button" aria-label="Show password" aria-pressed="false">
+                <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6z"></path>
+                  <path d="M12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"></path>
+                </svg>
+                <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M3 3l18 18"></path>
+                  <path d="M10.6 10.6A3 3 0 0 0 14 14"></path>
+                  <path d="M6.1 6.8C3.8 8.4 2.5 12 2.5 12s3.4 6 9.5 6c1.8 0 3.4-.5 4.8-1.2"></path>
+                  <path d="M13.4 6.1C18.7 6.8 21.5 12 21.5 12a16 16 0 0 1-2 2.8"></path>
+                </svg>
+              </button>
+            </span>
+          </label>
+          <div class="auth-options">
+            <label class="remember-choice">
+              <input name="remember" type="checkbox" value="1">
+              <span>Remember Me</span>
+            </label>
+            <button class="forgot-link" id="forgotPassword" type="button">Forgot Password?</button>
+          </div>
+          <button class="primary-button login-button full" type="submit">Log In</button>
+          <p class="auth-switch">New here? <button data-auth-tab="register" type="button">Sign Up</button></p>
+        </form>
+        <form id="registerForm" class="auth-form hidden">
+          <label class="hp-field" aria-hidden="true">Website<input name="_website" tabindex="-1" autocomplete="off"></label>
+          <div class="auth-heading compact">
+            <img class="auth-brand-logo" src="assets/logo.png?v=20260715" alt="">
+            <h2 id="registerTitle">Create your account</h2>
+            <p id="registerSubtitle">Start booking dental visits securely.</p>
+          </div>
+          <div class="form-grid two">
+            <label>
+              Full name
+              <input name="name" autocomplete="name" minlength="2" maxlength="120" required>
+            </label>
+            <label>
+              Phone
+              <input name="phone" autocomplete="tel" inputmode="tel" maxlength="24" pattern="[0-9+() .-]{7,24}">
+            </label>
+          </div>
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" maxlength="254" required>
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" required>
+          </label>
+          <label>
+            Account type
+            <select name="role" id="registerRole">
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor / Staff</option>
+            </select>
+          </label>
+          <label class="hidden" id="staffCodeWrap">
+            Staff access code
+            <input name="staff_code" type="password" autocomplete="off" maxlength="256">
+          </label>
+          <button class="primary-button full" type="submit">Create Account</button>
+          <p class="auth-switch">Already have an account? <button class="active" data-auth-tab="login" type="button">Log In</button></p>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+    <script src="security.js?v=20260722-date-fix" defer></script>
+    <script src="app.js?v=20260722-single-doctor" defer></script>
+  </body>
+</html>
